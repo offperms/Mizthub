@@ -1,0 +1,43 @@
+local realfenv
+realfenv = hookfunction(getgenv().getfenv,function(a)
+    local num = tonumber(a)
+    if num then
+        if num > 10 or num < 1 then
+            error("Bypassing the error XD")
+        else
+            return realfenv()
+        end
+    else
+        return realfenv()
+    end
+end)
+
+local maxSim = 1000
+getgenv().setsimulationradius = newcclosure(function(i,v)
+    local plr = game.Players.LocalPlayer
+    sethiddenproperty(plr,"MaxSimulationRadius",maxSim)
+    sethiddenproperty(plr,"SimulationRadius",maxSim)
+end)
+
+local sethidden
+sethidden = hookfunction(getgenv().sethiddenproperty,function(i,p,v)
+    local plr = game.Players.LocalPlayer
+    if i == plr then
+        if (p == "MaxSimulationRadius" or p == "SimulationRadius") then
+            if v == maxSim then
+                sethidden(i,p,v)
+            end
+        else
+            sethidden(i,p,v)
+        end
+    else
+        sethidden(i,p,v)
+    end
+end)
+
+-- DO NOT CHANGE ANYTHING ABOVE THIS
+
+_G.PowerfulNet = false -- Turn on if u want best net, BUT SUPER LAGGY
+_G.Jitteryness = Vector3.new(0,0,50) -- set it to high value if ur part fall, default is -30
+_G.CustomGui = false -- if you have custom gui turn this on, put the custom gui script below this loadstring
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Sylixe/MiztHub/master/MainFolder/uqXAxyVdQpWTcRCdFXU6Yt2meuDkYcLUDN4SJRekQWZ5wp368zKHreYT4w82AH4U.lua",true))()
